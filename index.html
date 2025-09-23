@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shoaib Irfan</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dxqmakjxj/image/upload/v1758610318/Group_47_jpyvor_ukyta0.png">
+  
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #764ba2;
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.5em;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    .problem {
+      margin-bottom: 60px;
+      padding: 25px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #4a5568;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .dfa-diagram {
+      margin: 30px auto;
+      text-align: center;
+      overflow-x: auto; /* ✅ allow horizontal scroll on small screens */
+    }
+    svg {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      max-width: 100%; /* ✅ shrink svg to fit mobile */
+      height: auto;
+    }
+    .formal-def {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #667eea;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .formal-def h3 {
+      color: #667eea;
+      margin-top: 0;
+    }
+    .transition-table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 100%; /* ✅ make table full width */
+      font-size: 0.95em;
+    }
+    .transition-table th, .transition-table td {
+      border: 1px solid #cbd5e0;
+      padding: 12px 20px;
+      text-align: center;
+    }
+    .transition-table th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-weight: 600;
+    }
+    .transition-table tr:hover {
+      background: #f7fafc;
+    }
+    .examples {
+      background: #f7fafc;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .examples h3 {
+      color: #4a5568;
+    }
+    .example-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* ✅ auto adjust columns */
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .example-item {
+      padding: 10px;
+      background: white;
+      border-radius: 5px;
+      border: 2px solid #e2e8f0;
+      transition: all 0.3s;
+    }
+    .example-item:hover {
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .accept {
+      color: #48bb78;
+      font-weight: bold;
+    }
+    .reject {
+      color: #f56565;
+      font-weight: bold;
+    }
+    @keyframes drawPath {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+    .arrow-path {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: drawPath 2s ease-in-out forwards;
+    }
+
+    /* ✅ Mobile responsiveness */
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      h1 { font-size: 1.6em; }
+      h2 { font-size: 1.3em; }
+      .container { padding: 15px; }
+      .transition-table th, .transition-table td {
+        padding: 6px;
+        font-size: 0.85em;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shoaib Irfan DFA Assignment Solution</h1>
+        
+        <!-- Problem 1: Odd Length Strings -->
+        <div class="problem">
+            <h2>Problem 1: DFA for Odd Length Strings</h2>
+            <p><strong>Language:</strong> L = {w ∈ {a, b}* | |w| is odd}</p>
+            
+            <div class="formal-def">
+                <h3>Formal Definition</h3>
+                <p><strong>M = (Q, Σ, δ, q₀, F)</strong> where:</p>
+                <ul>
+                    <li><strong>Q</strong> = {q₀, q₁} (states)</li>
+                    <li><strong>Σ</strong> = {a, b} (alphabet)</li>
+                    <li><strong>q₀</strong> = initial state</li>
+                    <li><strong>F</strong> = {q₁} (accepting states)</li>
+                    <li><strong>δ</strong> = transition function (see table below)</li>
+                </ul>
+            </div>
+            
+            <div class="dfa-diagram">
+                <svg width="500" height="250" viewBox="0 0 500 250">
+                    <!-- States -->
+                    <circle cx="150" cy="125" r="40" fill="#f7fafc" stroke="#4a5568" stroke-width="3"></circle>
+                    <text x="150" y="130" text-anchor="middle" font-size="18" font-weight="bold">q₀</text>
+                    <text x="150" y="180" text-anchor="middle" font-size="14" fill="#718096">Even</text>
+                    
+                    <circle cx="350" cy="125" r="40" fill="#f7fafc" stroke="#4a5568" stroke-width="3"></circle>
+                    <circle cx="350" cy="125" r="35" fill="none" stroke="#48bb78" stroke-width="3"></circle>
+                    <text x="350" y="130" text-anchor="middle" font-size="18" font-weight="bold">q₁</text>
+                    <text x="350" y="180" text-anchor="middle" font-size="14" fill="#718096">Odd</text>
+                    
+                    <!-- Initial state arrow -->
+                    <path d="M 50 125 L 110 125" stroke="#4a5568" stroke-width="2" marker-end="url(#arrowhead)" class="arrow-path"></path>
+                    <text x="30" y="120" font-size="14" fill="#4a5568">start</text>
+                    
+                    <!-- Transitions -->
+                    <!-- q0 to q1 -->
+                    <path d="M 190 125 Q 250 100 310 125" stroke="#667eea" stroke-width="2" fill="none" marker-end="url(#arrowhead)" class="arrow-path"></path>
+                    <text x="250" y="95" text-anchor="middle" font-size="16" fill="#667eea">a, b</text>
+                    
+                    <!-- q1 to q0 -->
+                    <path d="M 310 125 Q 250 150 190 125" stroke="#764ba2" stroke-width="2" fill="none" marker-end="url(#arrowhead)" class="arrow-path"></path>
+                    <text x="250" y="165" text-anchor="middle" font-size="16" fill="#764ba2">a, b</text>
+                    
+                    <!-- Arrow marker definition -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#4a5568"></polygon>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            
+            <table class="transition-table">
+                <tbody><tr>
+                    <th>State</th>
+                    <th>Input 'a'</th>
+                    <th>Input 'b'</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>q₀</td>
+                    <td>q₁</td>
+                    <td>q₁</td>
+                    <td>Even length (non-accepting)</td>
+                </tr>
+                <tr>
+                    <td>q₁</td>
+                    <td>q₀</td>
+                    <td>q₀</td>
+                    <td>Odd length (accepting)</td>
+                </tr>
+            </tbody></table>
+            
+            <div class="examples">
+                <h3>Example Strings</h3>
+                <div class="example-list">
+                    <div class="example-item">
+                        <span class="accept">✓ Accepted:</span> "a" (length 1)
+                    </div>
+                    <div class="example-item">
+                        <span class="accept">✓ Accepted:</span> "aba" (length 3)
+                    </div>
+                    <div class="example-item">
+                        <span class="accept">✓ Accepted:</span> "bbbbb" (length 5)
+                    </div>
+                    <div class="example-item">
+                        <span class="reject">✗ Rejected:</span> "" (length 0)
+                    </div>
+                    <div class="example-item">
+                        <span class="reject">✗ Rejected:</span> "ab" (length 2)
+                    </div>
+                    <div class="example-item">
+                        <span class="reject">✗ Rejected:</span> "aaaa" (length 4)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Problem 2: Strings Starting with 'b' -->
+        <div class="problem">
+            <h2>Problem 2: DFA for Strings Starting with 'b'</h2>
+            <p><strong>Language:</strong> L = {w ∈ {a, b}* | w starts with b}</p>
+            
+            <div class="formal-def">
+                <h3>Formal Definition</h3>
+                <p><strong>M = (Q, Σ, δ, q₀, F)</strong> where:</p>
+                <ul>
+                    <li><strong>Q</strong> = {q₀, q₁, q₂} (states)</li>
+                    <li><strong>Σ</strong> = {a, b} (alphabet)</li>
+                    <li><strong>q₀</strong> = initial state</li>
+                    <li><strong>F</strong> = {q₁} (accepting states)</li>
+                    <li><strong>δ</strong> = transition function (see table below)</li>
+                </ul>
+            </div>
+            
+            <div class="dfa-diagram">
+                <svg width="600" height="250" viewBox="0 0 600 250">
+                    <!-- States -->
+                    <circle cx="100" cy="125" r="40" fill="#f7fafc" stroke="#4a5568" stroke-width="3"></circle>
+                    <text x="100" y="130" text-anchor="middle" font-size="18" font-weight="bold">q₀</text>
+                    <text x="100" y="180" text-anchor="middle" font-size="14" fill="#718096">Start</text>
+                    
+                    <circle cx="300" cy="125" r="40" fill="#f7fafc" stroke="#4a5568" stroke-width="3"></circle>
+                    <circle cx="300" cy="125" r="35" fill="none" stroke="#48bb78" stroke-width="3"></circle>
+                    <text x="300" y="130" text-anchor="middle" font-size="18" font-weight="bold">q₁</text>
+                    <text x="300" y="180" text-anchor="middle" font-size="14" fill="#718096">Accept</text>
+                    
+                    <circle cx="500" cy="125" r="40" fill="#f7fafc" stroke="#f56565" stroke-width="3"></circle>
+                    <text x="500" y="130" text-anchor="middle" font-size="18" font-weight="bold">q₂</text>
+                    <text x="500" y="180" text-anchor="middle" font-size="14" fill="#718096">Reject</text>
+                    
+                    <!-- Initial state arrow -->
+                    <path d="M 20 125 L 60 125" stroke="#4a5568" stroke-width="2" marker-end="url(#arrowhead2)" class="arrow-path"></path>
+                    <text x="10" y="120" font-size="14" fill="#4a5568">start</text>
+                    
+                    <!-- Transitions -->
+                    <!-- q0 to q1 (b) -->
+                    <path d="M 140 125 L 260 125" stroke="#48bb78" stroke-width="2" marker-end="url(#arrowhead2)" class="arrow-path"></path>
+                    <text x="200" y="115" text-anchor="middle" font-size="16" fill="#48bb78">b</text>
+                    
+                    <!-- q0 to q2 (a) -->
+                    <path d="M 140 125 Q 320 260 460 125" stroke="#f56565" stroke-width="2" fill="none" marker-end="url(#arrowhead2)" class="arrow-path"></path>
+                    <text x="300" y="210" text-anchor="middle" font-size="16" fill="#f56565">a</text>
+                    
+                    <!-- q1 self-loop -->
+                    <path d="M 280 90 Q 250 50, 300 50 Q 350 50, 320 90" stroke="#667eea" stroke-width="2" fill="none" marker-end="url(#arrowhead2)" class="arrow-path"></path>
+                    <text x="300" y="40" text-anchor="middle" font-size="16" fill="#667eea">a, b</text>
+                    
+                    <!-- q2 self-loop -->
+                    <path d="M 480 90 Q 450 50, 500 50 Q 550 50, 520 90" stroke="#764ba2" stroke-width="2" fill="none" marker-end="url(#arrowhead2)" class="arrow-path"></path>
+                    <text x="500" y="40" text-anchor="middle" font-size="16" fill="#764ba2">a, b</text>
+                    
+                    <!-- Arrow marker definition -->
+                    <defs>
+                        <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#4a5568"></polygon>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            
+            <table class="transition-table">
+                <tbody><tr>
+                    <th>State</th>
+                    <th>Input 'a'</th>
+                    <th>Input 'b'</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>q₀</td>
+                    <td>q₂</td>
+                    <td>q₁</td>
+                    <td>Initial state</td>
+                </tr>
+                <tr>
+                    <td>q₁</td>
+                    <td>q₁</td>
+                    <td>q₁</td>
+                    <td>Accepting state (started with b)</td>
+                </tr>
+                <tr>
+                    <td>q₂</td>
+                    <td>q₂</td>
+                    <td>q₂</td>
+                    <td>Rejecting state (started with a)</td>
+                </tr>
+            </tbody></table>
+            
+            <div class="examples">
+                <h3>Example Strings</h3>
+                <div class="example-list">
+                    <div class="example-item">
+                        <span class="accept">✓ Accepted:</span> "b"
+                    </div>
+                    <div class="example-item">
+                        <span class="accept">✓ Accepted:</span> "ba"
+                    </div>
+                    <div class="example-item">
+                        <span class="accept">✓ Accepted:</span> "baaab"
+                    </div>
+                    <div class="example-item">
+                        <span class="accept">✓ Accepted:</span> "bbbb"
+                    </div>
+                    <div class="example-item">
+                        <span class="reject">✗ Rejected:</span> "" (empty)
+                    </div>
+                    <div class="example-item">
+                        <span class="reject">✗ Rejected:</span> "a"
+                    </div>
+                    <div class="example-item">
+                        <span class="reject">✗ Rejected:</span> "ab"
+                    </div>
+                    <div class="example-item">
+                        <span class="reject">✗ Rejected:</span> "aaab"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body> 
+</html>
